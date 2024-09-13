@@ -35,6 +35,7 @@ namespace eShopSolution.Data.Extension
                   }                    
                 }
                 );
+            //seeding data product
             modelBuilder.Entity<Product>().HasData(
            new Product()
            {
