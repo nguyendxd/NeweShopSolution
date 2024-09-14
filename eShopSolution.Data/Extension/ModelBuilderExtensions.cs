@@ -1,40 +1,51 @@
-﻿using eShopSolution.Data.Entities;
+﻿
+using eShopSolution.Data.Entities;
 using eShopSolution.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace eShopSolution.Data.Extension
+namespace eShopSolution.Data.Extensions
 {
     public static class ModelBuilderExtensions
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            //seeding data app config
             modelBuilder.Entity<AppConfig>().HasData(
-               new AppConfig() { Key = "Home title", Value = "This is home page of eShopSolution" },
-               new AppConfig() { Key = "HomeKeyword", Value = "This is keyword page of eSolution" },
-               new AppConfig() { Key = "HomeDescription", Value = "This is description page of eSolution" }
+               new AppConfig() { Key = "HomeTitle", Value = "This is home page of eShopSolution" },
+               new AppConfig() { Key = "HomeKeyword", Value = "This is keyword of eShopSolution" },
+               new AppConfig() { Key = "HomeDescription", Value = "This is description of eShopSolution" }
                );
             modelBuilder.Entity<Language>().HasData(
-                new Language() { Id = "vi-VN", Name = "Tiếng Việt", IsDefault=true},
-                new Language() { Id = "en-US", Name = "English", IsDefault =  false}
-                ); 
+                new Language() { Id = "vi-VN", Name = "Tiếng Việt", IsDefault = true },
+                new Language() { Id = "en-US", Name = "English", IsDefault = false });
+
             modelBuilder.Entity<Category>().HasData(
-                new Category() {
-                    IsShowOnHome = true, 
-                    ParentId = null, 
-                    SortOrder = 1, 
+                new Category()
+                {
+                    Id = 1,
+                    IsShowOnHome = true,
+                    ParentId = null,
+                    SortOrder = 1,
                     Status = Status.Active,
-                    CategoryTranslations = new List<CategoryTranslation>() { 
-                    new CategoryTranslation() {Name = "Áo nam", LanguageId = "vi-VN", SeoAlias="ao-nam", SeoDescription = "Sản phẩm áo nam", SeoTitle="Áo"  },
-                    new CategoryTranslation() {Name = "Men shirt", LanguageId = "en-US", SeoAlias = "men-shirt", SeoDescription = "Fashion shirt for man", SeoTitle="Shirt"}
-                  }                    
-                }
-                );
+                },
+                 new Category()
+                 {
+                     Id = 2,
+                     IsShowOnHome = true,
+                     ParentId = null,
+                     SortOrder = 2,
+                     Status = Status.Active
+                 });
+
+            modelBuilder.Entity<CategoryTranslation>().HasData(
+                  new CategoryTranslation() { Id = 1, CategoryId = 1, Name = "Áo nam", LanguageId = "vi-VN", SeoAlias = "ao-nam", SeoDescription = "Sản phẩm áo thời trang nam", SeoTitle = "Sản phẩm áo thời trang nam" },
+                  new CategoryTranslation() { Id = 2, CategoryId = 1, Name = "Men Shirt", LanguageId = "en-US", SeoAlias = "men-shirt", SeoDescription = "The shirt products for men", SeoTitle = "The shirt products for men" },
+                  new CategoryTranslation() { Id = 3, CategoryId = 2, Name = "Áo nữ", LanguageId = "vi-VN", SeoAlias = "ao-nu", SeoDescription = "Sản phẩm áo thời trang nữ", SeoTitle = "Sản phẩm áo thời trang women" },
+                  new CategoryTranslation() { Id = 4, CategoryId = 2, Name = "Women Shirt", LanguageId = "en-US", SeoAlias = "women-shirt", SeoDescription = "The shirt products for women", SeoTitle = "The shirt products for women" }
+                    );
+
             modelBuilder.Entity<Product>().HasData(
            new Product()
            {
@@ -44,6 +55,7 @@ namespace eShopSolution.Data.Extension
                Price = 200000,
                Stock = 0,
                ViewCount = 0,
+               SeoAlias = "ao-so-mi-nam-trang-viet-tien"
            });
             modelBuilder.Entity<ProductTranslation>().HasData(
                  new ProductTranslation()
@@ -73,7 +85,8 @@ namespace eShopSolution.Data.Extension
             modelBuilder.Entity<ProductInCategory>().HasData(
                 new ProductInCategory() { ProductId = 1, CategoryId = 1 }
                 );
-
         }
+
+
     }
 }
